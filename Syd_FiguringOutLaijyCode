@@ -1,2 +1,18 @@
-I've commented all of the code as I can figure it out, for reference as we try to integrade
+This repo is for Laijy's code ported into QMake, sorta.
+
+I've commented all of the code as I can figure it out, for reference as we try to integrate
 Tried to list all my notes as "Syd: [NOTE]" but if I forget to do that now you know.
+
+If I've commented at all within a file, I put so at the top.
+
+Note Laijy's original main.cpp and main header (called pch.hpp) is missing from this repo.
+
+General Project Flow, as I can figure it out:
+For main.cpp (not included)
+    Program begins running
+    Product is created in main.cpp
+        Product creates a database containing cart items
+    Screen is created within the window
+    Keyboard is linked to the screen/window
+    Window is executed (as a return statement)
+        If window fails to run, returns whatever error number, which in turn is returned by main.cpp
