@@ -1,23 +1,19 @@
-#include "widget.h"
+///////////////////////////////////////////////////////////////////////////
+// Precompilled headers
+///////////////////////////////////////////////////////////////////////////
+#include <pch.hpp>
+#include <POS/UI/Window.hpp>
+#include <POS/UI/Screen/Home.hpp>
 
-#include <QApplication>
-#include <QLocale>
-#include <QTranslator>
-
-int main(int argc, char *argv[])
+///////////////////////////////////////////////////////////////////////////
+auto main(
+    int argc,
+    char *argv[]
+) -> int
 {
-    QApplication a(argc, argv);
-
-    QTranslator translator;
-    const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for (const QString &locale : uiLanguages) {
-        const QString baseName = "POS_" + QLocale(locale).name();
-        if (translator.load(":/i18n/" + baseName)) {
-            a.installTranslator(&translator);
-            break;
-        }
-    }
-    Widget w;
-    w.show();
-    return a.exec();
+    // ::pos::ui::Window window{ argc, argv, 1920, 1080, "MainPosSystemWindow" };
+    ::pos::ui::Window window{ argc, argv, 720, 520, "MainPosSystemWindow" };
+    ::pos::ui::screen::Home homeScreen{ window };
+    window.linkVirtualKeyPad(homeScreen.getVirtualKeyPad());
+    return window.exec();
 }

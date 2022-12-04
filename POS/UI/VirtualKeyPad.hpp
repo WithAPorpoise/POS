@@ -56,8 +56,7 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     void reveal(
-        ::std::function<void(const ::std::vector<::std::string>&)> validateCallback,
-        ::std::size_t numValues = 1
+        ::std::function<void(const ::std::string&)> validateCallback
     );
 
     ///////////////////////////////////////////////////////////////////////////
@@ -72,16 +71,9 @@ public:
         const ::std::string& str
     );
 
-    ///////////////////////////////////////////////////////////////////////////
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-    void validate();
-
 
 
 private:
-
-    ::QMainWindow& m_window;
 
     bool m_isVisible{ false };
     ::std::size_t m_visibleXPos;
@@ -91,7 +83,7 @@ private:
 
     ::QSize m_buttonSize;
 
-    ::std::optional<::std::function<void(const ::std::vector<::std::string>&)>> m_validateCallback;
+    ::std::optional<::std::function<void(const ::std::string&)>> m_validateCallback;
 
     ::pos::ui::box::ATextBox m_textBox;
     ::std::array<::pos::ui::button::CustomText, 16> m_buttons;
@@ -102,9 +94,6 @@ private:
     ::std::array<::QPropertyAnimation, 16> m_buttonAnimations;
 
     static inline constexpr const ::std::size_t animationDuration{ 200 };
-
-    ::std::size_t m_remainingValues{ 0 };
-    ::std::vector<::std::string> m_values;
 
 };
 

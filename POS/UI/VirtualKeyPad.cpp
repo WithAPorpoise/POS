@@ -30,7 +30,6 @@
     ::std::size_t ySize
 ) noexcept
     : m_products{ products }
-    , m_window{ window }
     , m_visibleXPos{ visibleXPos }
     , m_visibleYPos{ visibleYPos }
     , m_unvisibleXPos{ unvisibleXPos }
@@ -68,7 +67,17 @@
             static_cast<::std::size_t>(m_buttonSize.width()),
             static_cast<::std::size_t>(m_buttonSize.height()),
             [this, &window](){
-                this->validate();
+                try {
+                    if (m_validateCallback) {
+                        m_validateCallback.value()(m_textBox.getText());
+                    }
+                    m_textBox.clearLine();
+                    m_textBox.addLine("");
+                    m_textBox.print();
+                } catch (const ::std::exception& e) {
+                    new ::pos::ui::ErrorNotification{ window, e.what() };
+                }
+                this->conceal();
             }
         }, ::pos::ui::button::CustomText{
             window,
@@ -213,14 +222,12 @@
 ///
 ///////////////////////////////////////////////////////////////////////////
 void ::pos::ui::VirtualKeyPad::reveal(
-    ::std::function<void(const ::std::vector<::std::string>&)> validateCallback,
-    ::std::size_t numValues
+    ::std::function<void(const ::std::string&)> validateCallback
 )
 {
     m_products.setReadOnly(true);
     m_isVisible = true;
     m_validateCallback = validateCallback;
-    m_remainingValues = numValues;
     auto i{ 0uz };
     {
         const auto startPosX{ m_unvisibleXPos + m_buttonSize.width() * 0 };
@@ -538,7 +545,6 @@ void ::pos::ui::VirtualKeyPad::conceal()
     m_textBox.clearLine();
     m_textBox.addLine("");
     m_textBox.print();
-    m_values.clear();
     auto i{ 0uz };
     {
         const auto startPosX{ m_visibleXPos + m_buttonSize.width() * 0 };
@@ -837,26 +843,5 @@ void ::pos::ui::VirtualKeyPad::write(
     if (m_isVisible) {
         m_textBox.addText(str);
         m_textBox.print();
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////
-void ::pos::ui::VirtualKeyPad::validate()
-{
-    try {
-        m_values.emplace_back(m_textBox.getText());
-        m_textBox.clearLine();
-        m_textBox.addLine("");
-        m_textBox.print();
-
-        if (!--m_remainingValues && m_validateCallback) {
-            m_validateCallback.value()(m_values);
-        }
-    } catch (const ::std::exception& e) {
-        new ::pos::ui::ErrorNotification{ m_window, e.what() };
-    }
-
-    if (!m_remainingValues) {
-        this->conceal();
     }
 }

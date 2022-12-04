@@ -18,18 +18,14 @@
 
 ///////////////////////////////////////////////////////////////////////////
 auto ::pos::Product::getFromDataBase(
-    const ::std::string& id,
-    ::std::shared_ptr<::db::Products> dbProducts
+    const ::std::string& id
 ) -> Product
 {
     if (id.empty()) {
         throw ::std::runtime_error{ "No ID specified" };
     }
-    auto productVector{ dbProducts->retrieve({ id }) };
-    if (productVector.empty()) {
-        throw ::std::runtime_error{ "The ID '"s + id + "' does not match any product" };
-    }
-    return productVector[0];
+    throw ::std::runtime_error{ "The ID '"s + id + "' does not match any product" };
+    return Product{ 0, "randomProduct", 66666, 666 };
 }
 
 

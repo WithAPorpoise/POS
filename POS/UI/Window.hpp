@@ -79,8 +79,6 @@ public:
     {
         m_window.m_keyboardInputCallback =
             ::std::bind_front(&::pos::ui::VirtualKeyPad::write, &virtualKeyPad);
-        m_window.m_validateCallback =
-            ::std::bind_front(&::pos::ui::VirtualKeyPad::validate, &virtualKeyPad);
     }
 
 
@@ -106,8 +104,6 @@ private:
                 case Qt::Key_8: m_keyboardInputCallback.value()("8"s); break;
                 case Qt::Key_9: m_keyboardInputCallback.value()("9"s); break;
                 case Qt::Key_Period: m_keyboardInputCallback.value()("."s); break;
-                case Qt::Key_Return: m_validateCallback.value()(); break;
-                case Qt::Key_Enter: m_validateCallback.value()(); break;
                 default: break;
                 }
             }
@@ -115,7 +111,6 @@ private:
 
     public:
         ::std::optional<::std::function<void(const ::std::string&)>> m_keyboardInputCallback;
-        ::std::optional<::std::function<void()>> m_validateCallback;
     };
     Window::InternalWindow m_window;
     ::std::size_t m_xSize;
