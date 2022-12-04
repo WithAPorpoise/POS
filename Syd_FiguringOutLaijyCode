@@ -1,18 +1,48 @@
+Sydney's Making Code Notes
+
 This repo is for Laijy's code ported into QMake, sorta.
 
-I've commented all of the code as I can figure it out, for reference as we try to integrate
-Tried to list all my notes as "Syd: [NOTE]" but if I forget to do that now you know.
+This is me taking notes on what I can figure out of Laijy's code
+Not commented in the actual files quite yet to avoid issues with needing to merge
 
-If I've commented at all within a file, I put so at the top.
+All the code is a global namespace, hence the :: before each function/method/class call.
 
-Note Laijy's original main.cpp and main header (called pch.hpp) is missing from this repo.
+Note the original main.cpp and main header (called pch.hpp) is missing from this repo.
 
 General Project Flow, as I can figure it out:
 For main.cpp (not included)
-    Program begins running
     Product is created in main.cpp
         Product creates a database containing cart items
+            Database uses SQLite
     Screen is created within the window
     Keyboard is linked to the screen/window
-    Window is executed (as a return statement)
+    Window is executed
         If window fails to run, returns whatever error number, which in turn is returned by main.cpp
+
+
+Specific files and their functionalities
+
+"POS/Product.hpp" and "POS/Product.cpp" (WIP)
+Class: Product
+    Static Method: getFromDataBase()
+        Returns a searched product from a database, passing the id to search and the db to search
+        Return format: Product (the class data type)
+    Constructor:
+        Takes the item id, name, price, and quantity
+
+"POS/UI/ProductContainer.cpp" (WIP)
+Holds products
+
+
+
+    ===REALIZED WE MIGHT NOT NEED THESE BUT HERE FOR LATER REFERENCE====
+
+"DB/ADatabase.hpp" and "DB/ADatabase.cpp" (WIP)
+Class: ADatabase
+    Constructor takes the name of the database and a path to place the database
+    Operations to add/delete entries
+
+"DB/Products.hpp" and "DB/Products.cpp" (WIP)
+Class: Products
+    Constructor takes name and path
+    Getting the products list returns a pointer to the location
